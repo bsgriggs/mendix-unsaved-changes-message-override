@@ -27,6 +27,10 @@
                     <translation lang="en_US">Discard Changes</translation>
                 </translations>
             </property>
+            <property key="discardAction" type="action" required="false">
+                <caption>Discard Action</caption>
+                <description>Action performed when the user clicks the discard button. Use this to rollback the object if there are issues with the memory getting cleared.</description>
+            </property>
             <property key="cancelCaption" type="textTemplate">
                 <caption>Cancel Button Caption</caption>
                 <description>The text for the cancel button</description>
