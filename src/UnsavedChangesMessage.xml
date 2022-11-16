@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget id="mendix.unsavedchangesmessage.UnsavedChangesMessage" pluginWidget="true" needsEntityContext="true" offlineCapable="true"
+    supportedPlatform="Web"
+    xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
+    <name>Unsaved Changes Message</name>
+    <description>Widget to show a message to the user when they have unsaved changes and try to leave a page.</description>
+    <icon />
+    <properties>
+        <propertyGroup caption="General">
+            <property key="blockExit" type="expression" required="true">
+                <caption>Block Exit</caption>
+                <description>Expression to determine whether or not to show the message</description>
+                <returnType type="Boolean" />
+            </property>
+            <property key="message" type="textTemplate">
+                <caption>Message</caption>
+                <description>The text displayed to the user when the exit was blocked</description>
+                <translations>
+                    <translation lang="en_US">Are you sure you want to leave? All unsaved changes will be lost.</translation>
+                </translations>
+            </property>
+            <property key="discardCaption" type="textTemplate">
+                <caption>Discard Button Caption</caption>
+                <description>The text for the discard button</description>
+                <translations>
+                    <translation lang="en_US">Discard Changes</translation>
+                </translations>
+            </property>
+            <property key="cancelCaption" type="textTemplate">
+                <caption>Cancel Button Caption</caption>
+                <description>The text for the cancel button</description>
+                <translations>
+                    <translation lang="en_US">Cancel</translation>
+                </translations>
+            </property>
+        </propertyGroup>
+    </properties>
+</widget>

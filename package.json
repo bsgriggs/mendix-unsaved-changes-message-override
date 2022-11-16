@@ -1,0 +1,33 @@
+{
+  "name": "unsavedchangesmessage",
+  "widgetName": "UnsavedChangesMessage",
+  "version": "1.0.0",
+  "description": "Widget to show a message to the user when they have unsaved changes and try to leave a page.",
+  "copyright": "Benjamin Griggs",
+  "author": "Benjamin Griggs",
+  "engines": {
+    "node": ">=16"
+  },
+  "license": "MIT",
+  "config": {
+    "projectPath": "../../",
+    "mendixHost": "http://localhost:8080",
+    "developmentPort": 3000
+  },
+  "packagePath": "mendix",
+  "scripts": {
+    "start": "pluggable-widgets-tools start:server",
+    "dev": "pluggable-widgets-tools start:web",
+    "build": "pluggable-widgets-tools build:web",
+    "lint": "pluggable-widgets-tools lint",
+    "lint:fix": "pluggable-widgets-tools lint:fix",
+    "prerelease": "npm run lint",
+    "release": "pluggable-widgets-tools release:web"
+  },
+  "devDependencies": {
+    "@mendix/pluggable-widgets-tools": "^9.0.6"
+  },
+  "dependencies": {
+    "react-beforeunload": "^2.5.3"
+  }
+}
