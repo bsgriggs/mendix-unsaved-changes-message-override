@@ -6,7 +6,7 @@ const backOriginal = mx.ui.back;
 const openPageOriginal = mx.ui.openPage;
 const openFormOriginal = mx.ui.openForm;
 const openForm2Original = mx.ui.openForm2;
-const contentFormOriginal = mx.ui.getContentForm;
+// const contentFormOriginal = mx.ui.getContentForm;
 
 const callMxAction = action => {
     if (action !== undefined && action.canExecute && action.isExecuting === false) {
@@ -14,12 +14,17 @@ const callMxAction = action => {
     }
 };
 
-const discardChanges = discardAction => {
-    callMxAction(discardAction);
+const restoreFunctions = () => {
     mx.ui.back = backOriginal;
     mx.ui.openForm = openFormOriginal;
     mx.ui.openForm2 = openForm2Original;
-    mx.ui.getContentForm = contentFormOriginal;
+    delete mx.ui.getContentForm().close;
+    delete mx.ui.getContentForm().closePage;
+};
+
+const discardChanges = discardAction => {
+    callMxAction(discardAction);
+    restoreFunctions();
 };
 
 // Advice function
@@ -42,7 +47,7 @@ const beforeFunc = (method, blocked, message, discardCaption, discardAction, can
     };
 
 export function UnsavedChangesMessage({ message, discardCaption, cancelCaption, blockExit, discardAction }) {
-    //Override / restore mx.ui functions on widget render
+    //Override & restore mx.ui functions on widget render
     useEffect(() => {
         if (
             message.status === "available" &&
@@ -50,7 +55,6 @@ export function UnsavedChangesMessage({ message, discardCaption, cancelCaption, 
             cancelCaption.status === "available" &&
             blockExit.status === "available"
         ) {
-            console.info("Use Effect - override functions");
             if (mx.ui.back !== undefined) {
                 mx.ui.back = beforeFunc(
                     backOriginal,
@@ -93,7 +97,7 @@ export function UnsavedChangesMessage({ message, discardCaption, cancelCaption, 
             if (mx.ui.getContentForm !== undefined) {
                 if (mx.ui.getContentForm().close !== undefined) {
                     mx.ui.getContentForm().close = beforeFunc(
-                        contentFormOriginal,
+                        mx.ui.getContentForm().close,
                         blockExit.value,
                         message.value,
                         discardCaption.value,
@@ -103,7 +107,7 @@ export function UnsavedChangesMessage({ message, discardCaption, cancelCaption, 
                 }
                 if (mx.ui.getContentForm().closePage !== undefined) {
                     mx.ui.getContentForm().closePage = beforeFunc(
-                        contentFormOriginal,
+                        mx.ui.getContentForm().closePage,
                         blockExit.value,
                         message.value,
                         discardCaption.value,
@@ -114,22 +118,7 @@ export function UnsavedChangesMessage({ message, discardCaption, cancelCaption, 
             }
         }
         return () => {
-            console.info("use effect - reset functions");
-            if (mx.ui.back !== undefined) {
-                mx.ui.back = backOriginal;
-            }
-            if (mx.ui.openPage !== undefined) {
-                mx.ui.openPage = openPageOriginal;
-            }
-            if (mx.ui.openForm !== undefined) {
-                mx.ui.openForm = openFormOriginal;
-            }
-            if (mx.ui.openForm2 !== undefined) {
-                mx.ui.openForm2 = openForm2Original;
-            }
-            if (mx.ui.getContentForm !== undefined) {
-                mx.ui.getContentForm = contentFormOriginal;
-            }
+            restoreFunctions();
         };
     }, [message, discardCaption, cancelCaption, blockExit]);
 
